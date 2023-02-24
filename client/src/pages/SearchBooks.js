@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
+import { useMutation } from '@apollo/client';
+import { SAVE_BOOK } from '../utils/mutations';
+
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks } from '../utils/API';
+//import { saveBook, searchGoogleBooks } from '../utils/API';
+import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 const SearchBooks = () => {
@@ -13,6 +17,11 @@ const SearchBooks = () => {
 
   // crear un estado para mantener valores de bookId guardados
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+
+
+  const [saveBook, { error }] = useMutation(SAVE_BOOK);
+
+
 
   // configurar el hook useEffect para guardar la lista `savedBookIds` en localStorage al desmontar el componente
   // Obtenga más información aquí: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -63,13 +72,13 @@ const SearchBooks = () => {
     if (!token) {
       return false;
     }
-
+ 
     try {
-      const response = await saveBook(bookToSave, token);
+      const { data } = await saveBook({ variables: {input : bookToSave} });
 
-      if (!response.ok) {
+      /*if (!response.ok) {
         throw new Error('something went wrong!');
-      }
+      }*/
 
       // si el libro se guarda correctamente en la cuenta del usuario, guardar el identificador del libro en el estado
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
