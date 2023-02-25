@@ -1,5 +1,7 @@
+//Import gql from apollo-server-express
 const { gql } = require('apollo-server-express');
 
+//Define typeDefs for models, queries and mutations
 const typeDefs = gql`
     type Query {
         me: User
@@ -45,4 +47,5 @@ const typeDefs = gql`
     }
 `;
 
+//Export typeDefs
 module.exports = typeDefs;
