@@ -1,9 +1,12 @@
+//Import Schema and model from mongoose
 const { Schema, model } = require('mongoose');
+//Import bcrypt
 const bcrypt = require('bcrypt');
 
 // importar el esquema desde Book.js
 const bookSchema = require('./Book');
 
+//Create Schema for User model
 const userSchema = new Schema(
   {
     username: {
@@ -52,6 +55,8 @@ userSchema.virtual('bookCount').get(function () {
   return this.savedBooks.length;
 });
 
+//Create User model using userSchema
 const User = model('User', userSchema);
 
+//Export User model
 module.exports = User;

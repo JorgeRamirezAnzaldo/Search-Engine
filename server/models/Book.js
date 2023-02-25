@@ -1,3 +1,4 @@
+//Import Schema from mongoose
 const { Schema } = require('mongoose');
 
 // Este es un esquema de subdocumento, no se convertirá en su propio modelo, pero lo usaremos como esquema para la matriz `savedBooks` del usuario en User.js
@@ -28,4 +29,5 @@ const bookSchema = new Schema({
   },
 });
 
+//Export bookSchema
 module.exports = bookSchema;
