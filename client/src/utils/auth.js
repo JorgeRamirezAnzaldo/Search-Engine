@@ -46,4 +46,5 @@ class AuthService {
   }
 }
 
+//Export AuthService
 export default new AuthService();
