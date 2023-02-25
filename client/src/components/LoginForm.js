@@ -1,21 +1,28 @@
-// consulte SignupForm.js para obtener comentarios
+//Import React and useState
 import React, { useState } from 'react';
+//Import elements from react-bootstrap
 import { Form, Button, Alert } from 'react-bootstrap';
-
-//import { loginUser } from '../utils/API';
+//Import useMutation
 import { useMutation } from '@apollo/client';
+//Import LOGIN_USER mutation
 import { LOGIN_USER } from '../utils/mutations';
+//Import Auth class
 import Auth from '../utils/auth';
 
+//Function for LoginForm
 const LoginForm = () => {
+  //Set the initial state for the form
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+  //Configure login to use the LOGIN_USER mutation
   const [login, { error, data }] = useMutation(LOGIN_USER);
+  //Set other state variables
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
+  //Function to handle input changes in the form
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserFormData({ ...userFormData, [name]: value });
+    const { name, value } = event.target; //Get name and value of the input field changes
+    setUserFormData({ ...userFormData, [name]: value }); //Change state variable for using the form data
   };
 
   const handleFormSubmit = async (event) => {
@@ -27,27 +34,17 @@ const LoginForm = () => {
       event.preventDefault();
       event.stopPropagation();
     }
-
+    //Login process
     try {
-      //const response = await loginUser(userFormData);
-      const { data } = await login({
+      const { data } = await login({ //Login using the form data introduced
         variables: {...userFormData}
       })
-
-      /*if (!response.ok) {
-        throw new Error('something went wrong!');
-      }*/
-
-      /*const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);*/
-      console.log(data.login.token);
-      Auth.login(data.login.token);
+      Auth.login(data.login.token); //Call the login method of the authorization class to save token to localStorage
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
-
+    //Clean the form data 
     setUserFormData({
       username: '',
       email: '',
@@ -55,6 +52,7 @@ const LoginForm = () => {
     });
   };
 
+  //Return all necessary elements, functions and variables
   return (
     <>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
@@ -97,4 +95,5 @@ const LoginForm = () => {
   );
 };
 
+//Export LoginForm
 export default LoginForm;

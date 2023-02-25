@@ -1,15 +1,21 @@
+//Import React and useState
 import React, { useState } from 'react';
+//Import Link from react-router-dom
 import { Link } from 'react-router-dom';
+//Import elements from react-bootstrap
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+//Import SignUpForm and LoginForm components
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
-
+//Import Auth class
 import Auth from '../utils/auth';
 
+//Define function for the App navigation bar
 const AppNavbar = () => {
   // establecer el estado de visualización de modal
   const [showModal, setShowModal] = useState(false);
 
+  //Return all elements for the navigation bar and the proper functions
   return (
     <>
       <Navbar bg='dark' variant='dark' expand='lg'>
@@ -74,4 +80,5 @@ const AppNavbar = () => {
   );
 };
 
+//Export AppNavbar
 export default AppNavbar;

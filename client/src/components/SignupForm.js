@@ -1,16 +1,19 @@
+//Import react and useState
 import React, { useState } from 'react';
+//Import elements from react-bootstrap
 import { Form, Button, Alert } from 'react-bootstrap';
-
-//import { createUser } from '../utils/API';
-
+//Import useMutation from @apollo/client
 import { useMutation } from '@apollo/client';
+//Import ADD_USER mutation
 import { ADD_USER } from '../utils/mutations';
+//Import authorization class
 import Auth from '../utils/auth';
 
+//Function for SignupForm
 const SignupForm = () => {
   // establecer el estado de formulario inicial
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  
+  //Define addUser to use mutation ADD_USER
   const [addUser, { error, data }] = useMutation(ADD_USER);
   
   // establecer el estado para la validación del formulario
@@ -18,11 +21,13 @@ const SignupForm = () => {
   // establecer el estado para la alerta
   const [showAlert, setShowAlert] = useState(false);
 
+  //Function to handle changes in the input fields
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  //Function to execute when submitting the form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -33,32 +38,25 @@ const SignupForm = () => {
       event.stopPropagation();
     }
 
+    //Add User
     try {
-      //const response = await createUser(userFormData);
-      const {data} = await addUser({
+      const {data} = await addUser({ //Add user using the sign up form data introduced
         variables: {...userFormData}
       })
-
-      /*if (!response.ok) {
-        throw new Error('something went wrong!');
-      }*/
-
-      //const { token, user } = await response.json();
-      //console.log(user);
-      //Auth.login(token);
-      Auth.login(data.addUser.token);
+      Auth.login(data.addUser.token); //Call the login method of the authorization class to save token to localStorage
     } catch (err) {
       console.error(err);
       setShowAlert(true);
     }
 
-    setUserFormData({
+    setUserFormData({ //Clean form data
       username: '',
       email: '',
       password: '',
     });
   };
 
+  //Return all necessary elements with the proper functions and variables
   return (
     <>
       {/* This is needed for the validation functionality above */}
@@ -117,4 +115,5 @@ const SignupForm = () => {
   );
 };
 
+//Export SignupForm
 export default SignupForm;
