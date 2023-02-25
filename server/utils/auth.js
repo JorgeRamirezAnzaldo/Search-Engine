@@ -1,9 +1,11 @@
+//Import jsonwebtoken
 const jwt = require('jsonwebtoken');
 
-// establecer secreto de token y la fecha de vencimiento
+//Establish token secret and expiration
 const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
+//Export authentication functions
 module.exports = {
   // función para nuestras rutas autenticadas
   authMiddleware: function ({req}) {
@@ -16,7 +18,6 @@ module.exports = {
     }
 
     if (!token) {
-      //return res.status(400).json({ message: 'You have no token!' });
       return req;
     }
 
@@ -26,12 +27,10 @@ module.exports = {
       req.user = data;
     } catch {
       console.log('Invalid token');
-      //return res.status(400).json({ message: 'invalid token!' });
     }
-    // enviar al siguiente endpoint
-    //next();
     return req;
   },
+  //Function to sign token using jsonwebtoken
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
 
