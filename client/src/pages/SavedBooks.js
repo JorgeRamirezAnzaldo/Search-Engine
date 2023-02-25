@@ -1,66 +1,37 @@
+//Import React, useState and useEffect
 import React, { useState, useEffect } from 'react';
+//Import elements from react-bootstrap
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-
+//Import useQuery and useMutation
 import { useQuery, useMutation } from '@apollo/client';
-
+//Import QUERY_ME query and REMOVE_BOOK mutation
 import { QUERY_ME }  from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 
-//import { getMe, deleteBook } from '../utils/API';
+//Import Auth class
 import Auth from '../utils/auth';
+//Import function to remove book ids from localStorage
 import { removeBookId } from '../utils/localStorage';
 
+//Function for SavedBooks
 const SavedBooks = () => {
-  //const [userData, setUserData] = useState({});
+  //Configure removeBook to use REMOVE_BOOK mutation
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+  //Use query QUERY_ME
   const {loading, data} = useQuery(QUERY_ME);
-
+  //Set data to userData, if there is no data set an empty object
   const userData = data?.me || {};
-  // usar esto para determinar si el hook `useEffect()` debe volver a ejecutarse
-  //const userDataLength = Object.keys(userData).length;
-
-  /*useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-        if (!token) {
-          return false;
-        }
-
-        const response = await getMe(token);
-
-        if (!response.ok) {
-          throw new Error('something went wrong!');
-        }
-
-        const user = await response.json();
-        setUserData(user);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    getUserData();
-  }, [userDataLength]);*/
 
   // crear una función que acepte el valor mongo _id del libro como parámetro y elimina el libro de la base de datos
   const handleDeleteBook = async (bookId) => {
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    const token = Auth.loggedIn() ? Auth.getToken() : null; //Validate if the user is logged in and get token
 
-    if (!token) {
-      return false;
+    if (!token) { //If there is no token
+      return false; //Return false
     }
-
+    //Remove book
     try {
-      const { data } = await removeBook({variables:{ bookId: bookId }});
-
-      /*if (!response.ok) {
-        throw new Error('something went wrong!');
-      }*/
-
-      /*const updatedUser = await response.json();
-      setUserData(updatedUser);*/
+      const { data } = await removeBook({variables:{ bookId: bookId }}); //Remove book for user
       // tras el éxito, eliminar el identificador del libro de localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -69,11 +40,11 @@ const SavedBooks = () => {
   };
 
   // si los datos aún no están aquí, expresarlo
-  //if (!userDataLength) {
   if (loading) {  
     return <h2>LOADING...</h2>;
   }
 
+  //Return necessary elements, functions and variables
   return (
     <>
       <Jumbotron fluid className='text-light bg-dark'>
@@ -109,4 +80,5 @@ const SavedBooks = () => {
   );
 };
 
+//Export SavedBooks
 export default SavedBooks;
