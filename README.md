@@ -11,7 +11,7 @@
     
 ## Enlace a la aplicación funcional
 
-* [Enlace a aplicación]()
+* [Enlace a aplicación](https://books-search-engine.herokuapp.com/)
 
 ## Instrucciones de instalación  
 
@@ -65,7 +65,7 @@
 
 ## Información de uso de la aplicación
 
-* Una vez que hayas accedido a la aplicación mediante el link de [Heroku]() o si estás haciendo pruebas locales mediante la dirección http://localhost:3000/:
+* Una vez que hayas accedido a la aplicación mediante el link de [Heroku](https://books-search-engine.herokuapp.com/) o si estás haciendo pruebas locales mediante la dirección http://localhost:3000/:
   * Puedes iniciar sesión o crear una cuenta en la aplicación presionando el link correspondiente en el menú de navegación superior derecho:  
       ![Link Login/SignUp](./images/LinkLogin.JPG)   
     * Si ya tienes una cuenta, introduce tu correo electrónico y contraseña y presiona el botón de "Submit".  
